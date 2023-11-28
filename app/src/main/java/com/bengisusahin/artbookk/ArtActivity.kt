@@ -37,27 +37,54 @@ class ArtActivity : AppCompatActivity() {
     }
 
     fun selectImage(view: View){
-        //read external izni dangerous level oldugu icin manifestte kontrol etmek yeterli degil
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)){
-                //rationale gösterdikten sonra request permission buna karar veren androidin kendisi
-                Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Give permission", View.OnClickListener {
-                        //request permission
-                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }).show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            // Android 33+ -> READ_MEDIA_IMAGES
+//read external izni dangerous level oldugu icin manifestte kontrol etmek yeterli degil
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+                != PackageManager.PERMISSION_GRANTED){
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_MEDIA_IMAGES)){
+                    //rationale gösterdikten sonra request permission buna karar veren androidin kendisi
+                    Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Give permission", View.OnClickListener {
+                            //request permission
+                            permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                        }).show()
+                }else{
+                    //rationale göstermeden direkt request permission
+                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                }
+
             }else{
-                //rationale göstermeden direkt request permission
-                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                //intent
+                activityResultLauncher.launch(intentToGallery)
+
             }
-
         }else{
-            val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            //intent
-            activityResultLauncher.launch(intentToGallery)
+            // Android 33- -> READ_EXTERNAL_STORAGE
+//read external izni dangerous level oldugu icin manifestte kontrol etmek yeterli degil
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)){
+                    //rationale gösterdikten sonra request permission buna karar veren androidin kendisi
+                    Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Give permission", View.OnClickListener {
+                            //request permission
+                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        }).show()
+                }else{
+                    //rationale göstermeden direkt request permission
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
 
+            }else{
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                //intent
+                activityResultLauncher.launch(intentToGallery)
+
+            }
         }
+
     }
 
     private fun registerLauncher(){
