@@ -8,3 +8,8 @@
 Got the image from the gallery with permission.
 
 <img src="https://github.com/bengisusaahin/ArtBookK/blob/main/getImageFromGallery.png" width = "200" height = "400">
+
+Pulled the data.
+
+<img src="https://github.com/bengisusaahin/ArtBookK/blob/main/PullTheData.png" width = "200" height = "400">
+
