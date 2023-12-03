@@ -13,3 +13,6 @@ Pulled the data.
 
 <img src="https://github.com/bengisusaahin/ArtBookK/blob/main/PullTheData.png" width = "200" height = "400">
 
+Transferred the data.
+
+<img src="https://github.com/bengisusaahin/ArtBookK/blob/main/dataTansfer.png" width = "200" height = "400">
